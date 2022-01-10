@@ -2,12 +2,14 @@ import React from 'react';
 import { useState } from 'react';
 import { useGuests } from '../../context/GuestContext';
 import { useCustomHook } from '../../context/UserContext';
+import { useNavigate } from 'react-router-dom'
 
 export const GuestBook = () => {
     const [name, setName] = useState('')
     const [guestEntry, setGuestEntry] = useState('')
     const { guests, setGuests } = useGuests()
     const { user, setUser } = useCustomHook('user')
+    const { history} = useNavigate()
 
 
     const handleSubmit = (e) => {
@@ -23,6 +25,13 @@ export const GuestBook = () => {
 
         }
     }
+
+    const redirectLogin = () => {
+      let path = '/login';
+      history.replace(path);
+    
+    }
+
 
     const guestNameInput = (
   
@@ -40,7 +49,7 @@ export const GuestBook = () => {
       </>
     )
   
-  const msg = user ? `Thanks for the note ${user}.` : 'Please Sign the Book!'
+  const msg = user ? `Thanks ${user}!` : 'Sign the Book!'
   
       return (
   
@@ -50,12 +59,12 @@ export const GuestBook = () => {
   
         {user ? null : guestNameInput}
           <label htmlFor='guestEntry'>Guest Entry</label>
-          <textarea id="guestEntry" value={guestEntry} placeholder="Your Note!" onChange={(e) => setGuestEntry(e.target.value)} />
+          <textarea id="guestEntry" value={guestEntry} placeholder="Write something, if you like..." onChange={(e) => setGuestEntry(e.target.value)} />
           <button className="button" type="submit">
             Sign
           </button>
           {user && (
-          <button>Not {user} ?
+          <button onClick={redirectLogin}>Not {user} ?
           </button>
             )}
             
