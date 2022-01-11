@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useCustomHook } from '../../context/UserContext';
+import { useForm } from '../../hooks/UseForm';
+
 
 export default function Login() {
-  const history = useNavigate();
+  const history = useHistory();
   const location = useLocation();
   const { setUser } = useCustomHook();
-  const [userInput, setUserInput] = useState('');
-  const [passwordInput, setPasswordInput] = useState('');
+  const { formState, handleFormState } = useForm({ email: '', password: '' }); 
+  
   const [error, setError] = useState(null);
   const { from } = location.state || { from: { pathname: '/' } };
 
@@ -15,10 +17,10 @@ export default function Login() {
     e.preventDefault();
 
     if (
-      userInput === process.env.AUTH_USERNAME && passwordInput === process.env.AUTH_PASSWORD
+      formState.email === process.env.REACT_APP_AUTH_USERNAME && formState.password === process.env.REACT_APP_AUTH_PASSWORD
     ) {
-      setUser(userInput);
-      history.replace(from);
+      setUser(formState.email);
+      history.replace(from.pathname);
     } else {
       setError('Wrong username/password combination');
     }
@@ -27,20 +29,22 @@ export default function Login() {
   return (
     <div>
       <form 
-      onSubmit={(e) => handleLogin(e)}>
+      onSubmit={handleLogin}>
         <label htmlFor="user-input">Email</label>
         <input
-          name="user-input"
+          name="email"
           id="user-input"
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
+          type='email'
+          value={formState.email}
+          onChange={handleFormState}
         />
         <label htmlFor="password-input">Password</label>
         <input
           name="password"
           id="password"
-          value={passwordInput}
-          onChange={(e) => setPasswordInput(e.target.value)}
+          type='password'
+          value={formState.password}
+          onChange={handleFormState}
         />
         <button onClick={handleLogin}>Submit</button>
       </form>

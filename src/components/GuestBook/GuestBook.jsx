@@ -2,14 +2,15 @@ import React from 'react';
 import { useState } from 'react';
 import { useGuests } from '../../context/GuestContext';
 import { useCustomHook } from '../../context/UserContext';
-import { useNavigate } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
+
 
 export const GuestBook = () => {
     const [name, setName] = useState('')
     const [guestEntry, setGuestEntry] = useState('')
     const { guests, setGuests } = useGuests()
     const { user, setUser } = useCustomHook('user')
-    const { history} = useNavigate()
+    const history = useHistory()
 
 
     const handleSubmit = (e) => {
@@ -26,9 +27,9 @@ export const GuestBook = () => {
         }
     }
 
-    const redirectLogin = () => {
-      let path = '/login';
-      history.replace(path);
+    const handleClick = () => {
+      setUser('');
+      history.push('/login');
     
     }
 
@@ -64,7 +65,7 @@ export const GuestBook = () => {
             Sign
           </button>
           {user && (
-          <button onClick={redirectLogin}>Not {user} ?
+          <button onClick={handleClick}>Not {user} ?
           </button>
             )}
             
