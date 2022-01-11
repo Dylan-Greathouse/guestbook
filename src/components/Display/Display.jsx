@@ -9,7 +9,7 @@ export const Header = () => {
           Signing Guestbook as {user}
         </p>
       ) : (
-        <p>Sign In Friend!</p>
+        <p>Sign In</p>
       )}
         </header>
     )

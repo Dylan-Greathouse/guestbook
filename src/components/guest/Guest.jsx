@@ -8,3 +8,4 @@ export const Guest = ({ guest: { name, message } }) => {
         </div>
     )
 }
+export default Guest;
