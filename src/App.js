@@ -21,9 +21,6 @@ function App() {
               <Home />
             </PrivateRoute>
             </Switch>
-
-
-
         </Display>
 
       </Router>
